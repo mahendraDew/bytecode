@@ -1,7 +1,107 @@
-import React from 'react'
+'use client'
 
-export default function Hero() {
+import React from 'react'
+import FlickeringGrid from '../ui/flickering-grid'
+
+import { Manrope, Inter } from 'next/font/google'
+import GradualSpacing from '../ui/gradual-spacing'
+
+import { motion, useInView } from 'framer-motion'
+
+const manrope = Manrope({
+  subsets: ['latin'],
+  weight: ['400', '700', '800'],
+  style: ['normal']
+})
+const inter = Inter({
+  subsets: ['latin'],
+  weight: ['400', '700', '800'],
+  style: ['normal', 'italic']
+})
+
+export default function Hero () {
+  const ref = React.useRef(null)
+  const isInView = useInView(ref)
+
+  const FADE_DOWN_ANIMATION_VARIANTS = {
+    hidden: { opacity: 0, y: -10 },
+    show: { opacity: 1, y: 0, transition: { type: 'spring' } }
+  }
   return (
-    <div>Hero</div>
+    <div className='w-full h-screen  flex justify-center items-center'>
+      <div className='z-0 relative  w-full h-full'>
+        <FlickeringGrid
+          className='-z-0  size-full bg-black'
+          squareSize={4}
+          gridGap={6}
+          color='#6b728032'
+          maxOpacity={0.2}
+          flickerChance={0.1}
+        />
+
+        <motion.div
+          initial='hidden'
+          ref={ref}
+          animate={isInView ? 'show' : 'hidden'}
+          viewport={{ once: true }}
+          variants={{
+            hidden: {},
+            show: {
+              transition: {
+                staggerChildren: 0.15
+              }
+            }
+          }}
+        >
+          <div
+            className={`w-full z-10 absolute top-0  h-full px-5 ${manrope.className}`}
+          >
+            <motion.h1
+              variants={FADE_DOWN_ANIMATION_VARIANTS}
+              className=' text-4xl font-bold  bg-gradient-to-br from-slate-300 to-zinc-500 bg-clip-text text-transparent tracking-normal sm:text-7xl  md:text-9xl '
+            >
+              <div className='w-full h-1/2 text-9xl md:text-11xl lg:text-13xl font-extrabold   flex items-end  '>
+                {/* <div className="alt-heading text-4xl sm:text-7xl  md:text-9xl w-full ">BYTE</div> */}
+                BYTE
+              </div>
+            </motion.h1>
+            <motion.h1
+              variants={FADE_DOWN_ANIMATION_VARIANTS}
+              className=' text-4xl font-bold  bg-gradient-to-br from-slate-300 to-zinc-500 bg-clip-text text-transparent tracking-normal sm:text-7xl  md:text-9xl '
+            >
+            <div className='w-full h-1/2 text-9xl md:text-11xl lg:text-13xl font-extrabold  flex items-start  justify-end '>
+            {/* <div className="alt-heading text-4xl sm:text-7xl  md:text-9xl w-full ">BYTE</div> */}
+                CODE
+              </div>
+            </motion.h1>
+            {/* <div className='w-full h-1/2 text-9xl md:text-11xl lg:text-13xl font-extrabold text-white  flex items-start  justify-end '>
+              CODE
+            </div> */}
+          </div>
+        </motion.div>
+        <div
+          className={`absolute z-10 top-5 right-0  px-5 uppercase ${inter.className} italic font-light`}
+        >
+          <GradualSpacing
+            className='font-display text-center    text-black dark:text-white  '
+            text='< A Minimalist UI component'
+          />
+        </div>
+        <div
+          className={`absolute z-10 bottom-5 left-5  px-5 uppercase ${inter.className} italic font-light`}
+        >
+          <GradualSpacing
+            className='font-display text-center    text-black dark:text-white  '
+            text='Simple | Minimal | Effortlessly Classy >'
+          />
+        </div>
+        <div
+          className={`absolute z-0 w-full h-1/5  bg-gradient-to-b from-black to-transparent top-0  px-5`}
+        ></div>
+        <div
+          className={`absolute z-0 w-full h-1/5  bg-gradient-to-b from-transparent to-black bottom-0  px-5`}
+        ></div>
+      </div>
+    </div>
   )
 }

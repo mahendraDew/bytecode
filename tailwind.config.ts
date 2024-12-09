@@ -1,5 +1,13 @@
 import type { Config } from "tailwindcss";
 
+
+const colors = require("tailwindcss/colors");
+const {
+  default: flattenColorPalette,
+} = require("tailwindcss/lib/util/flattenColorPalette");
+ 
+
+
 const config: Config = {
     darkMode: ["class"],
     content: [
@@ -9,6 +17,14 @@ const config: Config = {
   ],
   theme: {
   	extend: {
+  		fontSize: {
+  			'10xl': '12rem',
+  			'11xl': '16rem',
+  			'12xl': '20rem',
+  			'13xl': '24rem',
+  			'14xl': '30rem',
+  			massive: '40rem'
+  		},
   		colors: {
   			background: 'hsl(var(--background))',
   			foreground: 'hsl(var(--foreground))',
@@ -55,9 +71,36 @@ const config: Config = {
   			lg: 'var(--radius)',
   			md: 'calc(var(--radius) - 2px)',
   			sm: 'calc(var(--radius) - 4px)'
+  		},
+  		animation: {
+  			'shiny-text': 'shiny-text 8s infinite'
+  		},
+  		keyframes: {
+  			'shiny-text': {
+  				'0%, 90%, 100%': {
+  					'background-position': 'calc(-100% - var(--shiny-width)) 0'
+  				},
+  				'30%, 60%': {
+  					'background-position': 'calc(100% + var(--shiny-width)) 0'
+  				}
+  			}
   		}
   	}
   },
-  plugins: [require("tailwindcss-animate")],
+  plugins: [
+	addVariablesForColors,
+	require("tailwindcss-animate")],
 };
 export default config;
+
+
+function addVariablesForColors({ addBase, theme }: any) {
+	let allColors = flattenColorPalette(theme("colors"));
+	let newVars = Object.fromEntries(
+	  Object.entries(allColors).map(([key, val]) => [`--${key}`, val])
+	);
+   
+	addBase({
+	  ":root": newVars,
+	});
+  }
