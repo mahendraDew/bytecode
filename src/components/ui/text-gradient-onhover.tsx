@@ -48,7 +48,7 @@ const TextSVG = ({ text }: {text:string}) => {
         cx={gradientCenter.cx}
         cy={gradientCenter.cy}
       >
-        // you can edit the stopColor to change the gradient effect
+        {/* // you can edit the stopColor to change the gradient effect */}
         {isHovered && (
           <>
             <stop offset="40%" stopColor="#ffffff" stopOpacity="0.75" />
