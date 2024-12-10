@@ -1,14 +1,9 @@
 'use client'
 
 import React, { useState, useEffect } from 'react'
-import { motion, AnimatePresence } from 'framer-motion'
+import { motion } from 'framer-motion'
 
-import { Manrope, Inter } from 'next/font/google'
-const manrope = Manrope({
-  subsets: ['latin'],
-  weight: ['400', '700', '800'],
-  style: ['normal']
-})
+import { Inter } from 'next/font/google'
 const inter = Inter({
   subsets: ['latin'],
   weight: ['400', '700', '800'],
